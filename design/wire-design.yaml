@@ -5,23 +5,23 @@ platforms:
 
 # wiredb
   wiredb:
-    pack: oneops/postgresql:1
+    pack: prana/postgresql:1
     major_version: 1
     variables:
       dbuser: $OO_GLOBAL{AMQDBUSER}
       dbpass: $OO_GLOBAL{AMQDBPASS}
       dbname: $OO_GLOBAL{AMQDBNAME}
     components:
-      secgroup/oneops.1.Secgroup:
+      secgroup/prana.1.Secgroup:
         secgroup:
           inbound:
             - '22 22 tcp 0.0.0.0/0'
             - '5432 5432 tcp 0.0.0.0/0'
-      compute/oneops.1.Compute:
+      compute/prana.1.Compute:
         compute:
           size: M
           ostype: centos-7.2
-      postgresql/oneops.1.Postgresql:
+      postgresql/prana.1.Postgresql:
         postgresql:
           version: 9.2
           postgresql_conf:
@@ -29,13 +29,13 @@ platforms:
             tcp_keepalives_idle: 60
             tcp_keepalives_interval: 5
             max_connections: 1000
-      database/oneops.1.Database:
+      database/prana.1.Database:
         database:
           password: $OO_LOCAL{dbpass}
           dbname: $OO_LOCAL{dbname}
           username: $OO_LOCAL{dbuser}
 
-      lb/oneops.1.Lb:
+      lb/prana.1.Lb:
         lb:
           listeners:
              - tcp 5432 tcp 5432
@@ -44,7 +44,7 @@ platforms:
 
   # wire
   wire:
-    pack: oneops/activemq:1
+    pack: prana/activemq:1
     major_version: 1
     links:
       - wiredb
@@ -59,42 +59,42 @@ platforms:
       dbpass: $OO_GLOBAL{AMQDBPASS}
       dbname: $OO_GLOBAL{AMQDBNAME}
     components:
-      secgroup/oneops.1.Secgroup:
+      secgroup/prana.1.Secgroup:
         secgroup:
           inbound:
           - 22 22 tcp 0.0.0.0/0
           - 61616 61617 tcp 0.0.0.0/0
           - 8161 8162 tcp 0.0.0.0/0
 
-      compute/oneops.1.Compute:
+      compute/prana.1.Compute:
         compute:
           size: L
           ostype: centos-7.2
-      fqdn/oneops.1.Fqdn:
+      fqdn/prana.1.Fqdn:
         fqdn:
           aliases:
            - kloopzmq
           ptr_source: platform
           distribution: proximity
-      certificate/oneops.1.Certificate:
+      certificate/prana.1.Certificate:
         broker-cert:
           cacertkey:
           passphrase:
           cert:
           key:
-      java/oneops.1.Java:
+      java/prana.1.Java:
         java:
           install_dir: /usr/lib/jvm
           jrejdk: server-jre
           version: '8'
-      keystore/oneops.1.Keystore:
+      keystore/prana.1.Keystore:
         broker-keystore:
           keystore_password: 'changeme'
           keystore_filename: $OO_LOCAL{broker-cert-location}
-      topic/oneops.1.Topic:
+      topic/prana.1.Topic:
         topic-cms-all:
           topicname: CMS.ALL
-      queue/oneops.1.Queue:
+      queue/prana.1.Queue:
         queue-controller-wo:
           queuename: CONTROLLER.WO
         queue-notifications:
@@ -105,20 +105,20 @@ platforms:
           queuename: search.stream
         queue-sensor-mgmt:
           queuename: sensor-mgmt
-      artifact/oneops.1.Artifact:
+      artifact/prana.1.Artifact:
         amq-artifact:
           repository: Using full RepoURL
-          url: $OO_LOCAL{distbase}/oneops-amq-plugin-$OO_LOCAL{version}.tar.gz
-          location: $OO_LOCAL{distbase}/oneops-amq-plugin-$OO_LOCAL{version}.tar.gz
+          url: $OO_LOCAL{distbase}/prana-amq-plugin-$OO_LOCAL{version}.tar.gz
+          location: $OO_LOCAL{distbase}/prana-amq-plugin-$OO_LOCAL{version}.tar.gz
           version: $OO_LOCAL{version}
-          install_dir: /opt/oneops/artifact
+          install_dir: /opt/prana/artifact
           configure: |-
-            execute "cp /opt/oneops/artifact/releases/$OO_LOCAL{version}/oneops/dist/amqplugin-fat.jar /opt/activemq/lib/"
+            execute "cp /opt/prana/artifact/releases/$OO_LOCAL{version}/prana/dist/amqplugin-fat.jar /opt/activemq/lib/"
           restart: |-
             service "activemq" do
               action :restart
             end
-      activemq/oneops.1.Activemq:
+      activemq/prana.1.Activemq:
         activemq:
           version: 5.13.2
           brokerauthenabled: 'true'
@@ -172,7 +172,7 @@ platforms:
                     </property>
                   </bean>
 
-                  <bean id="cmsClient" class="com.oneops.amq.plugins.CMSClient">
+                  <bean id="cmsClient" class="com.prana.amq.plugins.CMSClient">
                     <property name="restTemplate" ref="restTemplate"/>
                     <property name="serviceUrl" value="http://cmsapi:8080/adapter/rest/"/>
                   </bean>
@@ -247,7 +247,7 @@ platforms:
                         <persistenceAdapter>
                             <jdbcPersistenceAdapter dataSource="#postgres-ds" lockKeepAlivePeriod="5000">
                                 <locker>
-                                        <lease-database-locker lockAcquireSleepInterval="10000" leaseHolderId="${ONEOPS_COMPUTE_CI_ID}"/>
+                                        <lease-database-locker lockAcquireSleepInterval="10000" leaseHolderId="${prana_COMPUTE_CI_ID}"/>
                                 </locker>
                                 <statements>
                                     <statements>
@@ -292,7 +292,7 @@ platforms:
                     </sslContext>
 
                     <plugins>
-                      <bean xmlns="http://www.springframework.org/schema/beans" id="authorizationPlugin" class="com.oneops.amq.plugins.OneopsAuthPlugin">
+                      <bean xmlns="http://www.springframework.org/schema/beans" id="authorizationPlugin" class="com.prana.amq.plugins.pranaAuthPlugin">
                         <property name="cms" ref="cmsClient"/>
                       </bean>
                     </plugins>

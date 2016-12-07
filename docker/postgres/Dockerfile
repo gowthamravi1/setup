@@ -1,4 +1,4 @@
-FROM oneops/centos7
+FROM prana/centos7
 
 RUN yum -y install http://yum.postgresql.org/9.2/redhat/rhel-6-x86_64/pgdg-centos92-9.2-8.noarch.rpm
 RUN yum -y install postgresql92-server postgresql92-contrib net-tools
@@ -10,6 +10,6 @@ COPY postgres.ini /etc/supervisord.d/postgres.ini
 COPY db.sh /etc/supervisord.d/db.sh
 RUN chmod +x /etc/supervisord.d/db.sh
 
-ENV OO_HOME /home/oneops
+ENV OO_HOME /home/prana
 VOLUME /var/lib/pgsql/9.2/data
 EXPOSE 5432

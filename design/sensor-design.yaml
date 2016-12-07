@@ -2,15 +2,15 @@
 variables:
 platforms:
   opsmq:
-    pack: oneops/activemq:1
+    pack: prana/activemq:1
   wire:
-    pack: oneops/activemq:1
+    pack: prana/activemq:1
   cmsdb:
-      pack: oneops/postgresql:1
+      pack: prana/postgresql:1
   opsdb:
-    pack: oneops/cassandra:1
+    pack: prana/cassandra:1
   sensor:
-    pack: oneops/tomcat:1
+    pack: prana/tomcat:1
     links:
      - cmsdb
      - wire
@@ -21,7 +21,7 @@ platforms:
         esper-version: 4.4.0
         esper-repository: Spring-milestone-repository
         notifypass: '::ENCRYPTED::'
-        esper-install-dir: /opt/oneops/artifact/esper
+        esper-install-dir: /opt/prana/artifact/esper
         sensorpoolsize: $OO_GLOBAL{SENSOR-POOL-SIZE}
         version: $OO_GLOBAL{VERSION}
         ecv-user: $OO_GLOBAL{ECV-USER}
@@ -47,10 +47,10 @@ platforms:
         daq-db: $OO_GLOBAL{DAQ-DB}
         amqhost: $OO_GLOBAL{AMQHOST}
     components:
-      compute/oneops.1.Compute:
+      compute/prana.1.Compute:
         compute:
           size: M
-      tomcat/oneops.1.Tomcat:
+      tomcat/prana.1.Tomcat:
         tomcat:
           polling_frequency_post_startup_check: '1'
           pre_shutdown_command: curl -s --connect-timeout 5 --max-time 5  -u $OO_LOCAL{ecv-user}:$OO_LOCAL{ecv-secret}
@@ -60,9 +60,9 @@ platforms:
           system_properties:
             sun.net.spi.nameservice.provider.2: default
             sun.net.spi.nameservice.provider.1: dns,sun
-            oneops.url: https://$OO_LOCAL{domain-alias}
-            com.oneops.sensor.PoolSize: $OO_LOCAL{sensorpoolsize}
-            com.oneops.sensor.MaxDuration: 20
+            prana.url: https://$OO_LOCAL{domain-alias}
+            com.prana.sensor.PoolSize: $OO_LOCAL{sensorpoolsize}
+            com.prana.sensor.MaxDuration: 20
             oo.cassandra.client.active_clients: 10
             oo.cassandra.client.timeout: 5000
           protocol: HTTP/1.1
@@ -163,30 +163,30 @@ platforms:
               priority: '1'
               content: ''
               run_on: before-add,before-replace,before-update
-      daemon/oneops.1.Daemon:
+      daemon/prana.1.Daemon:
         daemon-tomcat:
           service_name: tomcat7
           use_script_status: 'true'
           pattern: tomcat
           control_script_location: /etc/init.d/tomcat7
-      artifact/oneops.1.Artifact:
+      artifact/prana.1.Artifact:
         app:
-          install_dir: /opt/oneops/artifact
+          install_dir: /opt/prana/artifact
           password: '::ENCRYPTED::'
           restart: |
-                node.set["oneops"] = {
+                node.set["prana"] = {
 
-                            :home => "/usr/local/oneops",
-                            :install_dir => "/usr/local/oneops"
+                            :home => "/usr/local/prana",
+                            :install_dir => "/usr/local/prana"
                           }
                           node.set["tomcat"] = {
                             :webapp_dir => "/opt/tomcat7/webapps"
                           }
                           tomcat_user = "tomcat"
-                          execute "rm -f /usr/local/oneops/dist"
+                          execute "rm -f /usr/local/prana/dist"
 
-                          link "/usr/local/oneops/dist" do
-                            to "/opt/oneops/artifact/releases/$OO_LOCAL{version}/oneops/dist"
+                          link "/usr/local/prana/dist" do
+                            to "/opt/prana/artifact/releases/$OO_LOCAL{version}/prana/dist"
                           end
 
                           # war cleanup and deploy
@@ -196,7 +196,7 @@ platforms:
                                command "rm -fr #{node[:tomcat][:webapp_dir]}/#{war}*"
                             end
                             execute "#{war} war deploy" do
-                               command "cp #{node[:oneops][:home]}/dist/#{war}*.war #{node[:tomcat][:webapp_dir]}"
+                               command "cp #{node[:prana][:home]}/dist/#{war}*.war #{node[:tomcat][:webapp_dir]}"
                             end
                           end
 
@@ -219,10 +219,10 @@ platforms:
 
           should_expand: 'true'
           checksum: ''
-          location: $OO_LOCAL{distbase}/oneops-sensor-$OO_LOCAL{version}.tar.gz
+          location: $OO_LOCAL{distbase}/prana-sensor-$OO_LOCAL{version}.tar.gz
           repository: '*Using full RepoURL*'
           version: $OO_LOCAL{version}
-          url: $OO_LOCAL{distbase}/oneops-sensor-$OO_LOCAL{version}.tar.gz
+          url: $OO_LOCAL{distbase}/prana-sensor-$OO_LOCAL{version}.tar.gz
           username: not_required
           depends:
           - esper-lib
@@ -260,19 +260,19 @@ platforms:
           url: $OO_CLOUD{nexus}
           version: $OO_LOCAL{esper-version}
           should_expand: 'false'
-      keystore/oneops.1.Keystore:
+      keystore/prana.1.Keystore:
         keystore:
           keystore_password: '::ENCRYPTED::'
           keystore_filename: /var/lib/certs/keystore.jks
-      certificate/oneops.1.Certificate:
+      certificate/prana.1.Certificate:
         certificate: {}
-      user/oneops.1.User:
+      user/prana.1.User:
         ooadmin:
           home_directory_mode: '755'
           home_directory: '/home/ooadmin'
           ulimit: '16384'
           username: ooadmin
-      lb/oneops.1.Lb:
+      lb/prana.1.Lb:
         lb:
          listeners:
           - http 8080 http 8080

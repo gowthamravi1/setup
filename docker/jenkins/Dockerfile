@@ -1,4 +1,4 @@
-	FROM oneops/centos7
+	FROM prana/centos7
 
 # maven
 WORKDIR /opt
@@ -15,8 +15,8 @@ RUN mkdir -p ${OO_HOME}/build/.m2
 RUN rm -fr /root/.m2
 RUN ln -s ${OO_HOME}/build/.m2 /root/.m2
 
-# oneops
-ENV OO_HOME='/home/oneops'
+# prana
+ENV OO_HOME='/home/prana'
 VOLUME ${OO_HOME}
 EXPOSE 3001
 
@@ -24,5 +24,5 @@ WORKDIR ${OO_HOME}/build
 COPY hudson.tasks.Maven.xml hudson.tasks.Maven.xml
 COPY build.sh build.sh
 RUN chmod +x build.sh
-RUN ln -s /home/oneops/build/build.sh /usr/bin/build
+RUN ln -s /home/prana/build/build.sh /usr/bin/build
 RUN mkdir -p ${OO_HOME}/dist

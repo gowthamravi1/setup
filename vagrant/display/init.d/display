@@ -1,6 +1,6 @@
 #!/bin/bash
 # chkconfig: 2345 99 01
-# Description:    Oneops Search consumer.
+# Description:    prana Search consumer.
 # Processname: search
 
 # Source function library.
@@ -11,10 +11,10 @@
 
 prog="display"
 pidfile="/var/run/display.pid"
-progcmd="/opt/oneops/start-display.sh"
+progcmd="/opt/prana/start-display.sh"
 lock="/var/lock/subsys/display"
-logfile="/opt/oneops/log/display.log"
-rundir="/opt/oneops"
+logfile="/opt/prana/log/display.log"
+rundir="/opt/prana"
 
 WriteLog()
 {

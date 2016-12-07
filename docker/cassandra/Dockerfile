@@ -1,4 +1,4 @@
-FROM oneops/centos7
+FROM prana/centos7
 
 WORKDIR /opt
 ENV apache_archive="http://archive.apache.org/dist"
@@ -12,5 +12,5 @@ COPY cassandra.ini /etc/supervisord.d/cassandra.ini
 
 VOLUME /opt/cassandra/data
 
-ENV OO_HOME /home/oneops
+ENV OO_HOME /home/prana
 EXPOSE 7000 9160

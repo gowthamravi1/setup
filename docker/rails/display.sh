@@ -7,8 +7,8 @@ export LOG_DATA_SOURCE=es
 
 echo "Deploying display component: $now "
 
-mkdir -p /opt/oneops
-cd /opt/oneops
+mkdir -p /opt/prana
+cd /opt/prana
 
 # backup current app director if it exists
 # if [ -d display ]; then
@@ -16,10 +16,10 @@ cd /opt/oneops
 #   mv display display~
 # fi
 
-mkdir -p /opt/oneops/display
-cd /opt/oneops/display
+mkdir -p /opt/prana/display
+cd /opt/prana/display
 
-tar -xzvf $OO_HOME/dist/oneops/dist/app.tar.gz
+tar -xzvf $OO_HOME/dist/prana/dist/app.tar.gz
 
 bundle install
 

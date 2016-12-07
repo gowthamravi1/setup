@@ -3,19 +3,19 @@ variables:
 
 platforms:
   opsdb:
-    pack: oneops/cassandra:1
+    pack: prana/cassandra:1
     components:
-    compute/oneops.1.Compute:
+    compute/prana.1.Compute:
             compute:
               size: XL
               hosts:
                 daq: 127.0.0.1
               additional_search_domains:
               - $OO_GLOBAL{DOMAIN}
-    file/oneops.1.File:
+    file/prana.1.File:
     compact:
-      path: /opt/oneops/cassandra_compact.sh
-      exec_cmd: chmod +x /opt/oneops/cassandra_compact.sh
+      path: /opt/prana/cassandra_compact.sh
+      exec_cmd: chmod +x /opt/prana/cassandra_compact.sh
       content: |
           #!/bin/bash
           INDEX=`hostname | cut -d '-' -f3`
@@ -34,28 +34,28 @@ platforms:
       exec_cmd: echo "sleep 10; nodetool -h localhost join" > /etc/rc.local
       content: na
     logrotate:
-      path: /etc/logrotate.d/oneops-log
-      exec_cmd: 'mv /etc/cron.daily/logrotate /etc/cron.hourly/ ; rm -fr /etc/logrotate.d/oneops '
+      path: /etc/logrotate.d/prana-log
+      exec_cmd: 'mv /etc/cron.daily/logrotate /etc/cron.hourly/ ; rm -fr /etc/logrotate.d/prana '
       content: |
-        /opt/oneops/log/*.log
+        /opt/prana/log/*.log
         {
           copytruncate
           compress
           size 10M
           rotate 1
-          prerotate rm -fr /opt/oneops/log/*.gz
+          prerotate rm -fr /opt/prana/log/*.gz
           endscript
         }
     logstash-cert:
       path: /opt/.certs/logstash.crt
     logstash-key:
       path: /opt/.certs/logstash.key
-    volume/oneops.1.Volume:
+    volume/prana.1.Volume:
       volume:
         size: 100%FREE
         mount_point: /var/lib/cassandra
         fstype: xfs
-    cassandra/oneops.1.Cassandra:
+    cassandra/prana.1.Cassandra:
       cassandra:
         cluster: TestCluster
         max_heap_size: default
@@ -64,8 +64,8 @@ platforms:
         partitioner: org.apache.cassandra.dht.RandomPartitioner
         version: '2.0'
         heap_newsize: default
-        endpoint_snitch: org.apache.cassandra.locator.Propertyoneops.1.FileSnitch
-      user/oneops.1.User:
+        endpoint_snitch: org.apache.cassandra.locator.Propertyprana.1.FileSnitch
+      user/prana.1.User:
     ooadmin:
       home_directory_mode: '755'
       home_directory: /home/ooadmin
@@ -73,7 +73,7 @@ platforms:
       login_shell: /bin/bash
       ulimit: '16384'
       username: ooadmin
-    keyspace/oneops.1.Keyspace:
+    keyspace/prana.1.Keyspace:
       keyspace-mdb:
         placement_strategy: NetworkTopologyStrategy
         keyspace_name: mdb
@@ -82,23 +82,23 @@ platforms:
         placement_strategy: NetworkTopologyStrategy
         keyspace_name: sensor_ksp
         replication_factor: '2'
-    secgroup/oneops.1.Secgroup:
+    secgroup/prana.1.Secgroup:
       secgroup: {}
-    java/oneops.1.Java:
+    java/prana.1.Java:
       java:
         install_dir: /usr/lib/jvm
         version: '8'
-    job/oneops.1.Job:
+    job/prana.1.Job:
       job:
         hour: '14'
         month: '*'
         weekday: '5'
         description: compact
-        cmd: /opt/oneops/cassanandra_compact.sh
+        cmd: /opt/prana/cassanandra_compact.sh
         user: root
         day: '*'
         minute: '40'
-    daemon/oneops.1.Daemon:
+    daemon/prana.1.Daemon:
       daemon-cassandra:
         service_name: cassandra
         control_script_location: /etc/init.d/cassandra

@@ -1,7 +1,7 @@
 ---
 platforms:
  batch:
-     pack: oneops/custom:1
+     pack: prana/custom:1
      major_version: '1'
      variables:
        curator_version: 3.3.0
@@ -18,7 +18,7 @@ platforms:
        version: $OO_GLOBAL{VERSION}
        install-dir: $OO_GLOBAL{INSTALL-DIR}
      components:
-       artifact/oneops.1.Artifact:
+       artifact/prana.1.Artifact:
          artifact-click:
            install_dir: /app/click
            should_expand: 'false'
@@ -83,7 +83,7 @@ platforms:
            password: '::ENCRYPTED::'
            as_user: ooadmin
            as_group: ooadmin
-           location: $OO_LOCAL{distbase}/oneops-batch-$OO_LOCAL{version}.tar.gz
+           location: $OO_LOCAL{distbase}/prana-batch-$OO_LOCAL{version}.tar.gz
            configure: |
               bash 'install cost' do
                 code <<-EOH
@@ -102,16 +102,16 @@ platforms:
               end
            repository: '*Using full RepoURL*'
            version: $OO_LOCAL{version}
-           url: $OO_LOCAL{distbase}/oneops-batch-$OO_LOCAL{version}.tar.gz
+           url: $OO_LOCAL{distbase}/prana-batch-$OO_LOCAL{version}.tar.gz
            username: not_required
-       java/oneops.1.Java:
+       java/prana.1.Java:
          java: {}
-       job/oneops.1.Job:
+       job/prana.1.Job:
          log-index-delete:
            month: '*'
            hour: '00'
            weekday: '*'
-           cmd: /opt/oneops/curator/manage-logs.sh
+           cmd: /opt/prana/curator/manage-logs.sh
            day: '*'
            user: root
            minute: '30'
@@ -120,19 +120,19 @@ platforms:
            month: '*'
            weekday: '*'
            description: job to manage cms index
-           cmd: /opt/oneops/curator/manage-cms-indices.sh
+           cmd: /opt/prana/curator/manage-cms-indices.sh
            user: root
            day: '1'
            minute: '30'
-       file/oneops.1.File:
+       file/prana.1.File:
          manage-cms-indices:
-           path: /opt/oneops/curator/manage-cms-indices.sh
-           exec_cmd: chmod +x /opt/oneops/curator/manage-cms-indices.sh
+           path: /opt/prana/curator/manage-cms-indices.sh
+           exec_cmd: chmod +x /opt/prana/curator/manage-cms-indices.sh
            content: |
               #!/bin/bash
 
-              source /etc/profile.d/oneops.sh
-              cloud_status=`printenv ONEOPS_CLOUD_ADMINSTATUS`
+              source /etc/profile.d/prana.sh
+              cloud_status=`printenv prana_CLOUD_ADMINSTATUS`
 
               echo "cloud_status=$cloud_status"
               if [ $cloud_status != "primary" ]; then
@@ -144,13 +144,13 @@ platforms:
               curator --host es delete indices --older-than $OO_LOCAL{cms_index_delete_weeks} --time-unit weeks --prefix cms --timestring '%Y-w%W'
               curator --host es close indices --older-than $OO_LOCAL{cms_index_close_weeks} --time-unit weeks --prefix cms --timestring '%Y-w%W'
          manage-logs:
-           path: /opt/oneops/curator/manage-logs.sh
-           exec_cmd: chmod +x /opt/oneops/curator/manage-logs.sh
+           path: /opt/prana/curator/manage-logs.sh
+           exec_cmd: chmod +x /opt/prana/curator/manage-logs.sh
            content: |
               #!/bin/bash
 
-              source /etc/profile.d/oneops.sh
-              cloud_status=`printenv ONEOPS_CLOUD_ADMINSTATUS`
+              source /etc/profile.d/prana.sh
+              cloud_status=`printenv prana_CLOUD_ADMINSTATUS`
 
               echo "cloud_status=$cloud_status"
               if [ $cloud_status != "primary" ]; then

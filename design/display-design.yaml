@@ -3,38 +3,38 @@ variables:
 platforms:
 # links to
   adapter:
-    pack: oneops/tomcat:1
+    pack: prana/tomcat:1
   antenna:
-    pack: oneops/tomcat:1
+    pack: prana/tomcat:1
   daq:
-    pack: oneops/tomcat:1
+    pack: prana/tomcat:1
   sensor:
-    pack: oneops/tomcat:1
+    pack: prana/tomcat:1
   transistor:
-    pack: oneops/tomcat:1
+    pack: prana/tomcat:1
 
   displaydb:
-    pack: oneops/postgresql:1
+    pack: prana/postgresql:1
     major_version: 1
 
     variables:
-      artifact-dir: /opt/oneops/display
+      artifact-dir: /opt/prana/display
       home-dir: $OO_GLOBAL{INSTALL-DIR}
       version: $OO_GLOBAL{VERSION}
 
     components:
-      secgroup/oneops.1.Secgroup:
+      secgroup/prana.1.Secgroup:
         secgroup:
           inbound:
             - '22 22 tcp 0.0.0.0/0'
             - '5432 5432 tcp 0.0.0.0/0'
 
-      compute/oneops.1.Compute:
+      compute/prana.1.Compute:
         compute:
           size: M
           ostype: centos-7.2
 
-      library/oneops.1.Library:
+      library/prana.1.Library:
         library:
           packages:
             - gcc-c++
@@ -42,12 +42,12 @@ platforms:
             - zlib
             - graphviz
 
-      user/oneops.1.User:
+      user/prana.1.User:
         ooadmin:
           username: ooadmin
           home_directory: /home/ooadmin
 
-      postgresql/oneops.1.Postgresql:
+      postgresql/prana.1.Postgresql:
         postgresql:
           version: 9.2
           postgresql_conf:
@@ -56,17 +56,17 @@ platforms:
             tcp_keepalives_interval: 5
             max_connections: 500
 
-      database/oneops.1.Database:
+      database/prana.1.Database:
         database:
           dbname: $OO_GLOBAL{DISPLAY-DB-NAME}
           username: $OO_GLOBAL{DISPLAY-DB-USERNAME}
           password: 'changeme'
 
-      artifact/oneops.1.Artifact:
+      artifact/prana.1.Artifact:
         display:
           repository: releases
           install_dir: $OO_LOCAL{artifact-dir}
-          location: $OO_GLOBAL{DISTBASE}/oneops-display-$OO_LOCAL{version}.tar.gz
+          location: $OO_GLOBAL{DISTBASE}/prana-display-$OO_LOCAL{version}.tar.gz
           version: $OO_LOCAL{version}
           restart: |-
             home_dir = "$OO_LOCAL{home-dir}"
@@ -75,7 +75,7 @@ platforms:
 
             execute "mkdir -p #{home_dir}"
             execute "rm -fr #{dist_dir}"
-            execute "ln -sf $OO_LOCAL{artifact-dir}/releases/$OO_LOCAL{version}/oneops/dist #{dist_dir}"
+            execute "ln -sf $OO_LOCAL{artifact-dir}/releases/$OO_LOCAL{version}/prana/dist #{dist_dir}"
             execute "rm -fr #{base_dir}"
             execute "mkdir -p #{base_dir}"
 
@@ -108,7 +108,7 @@ platforms:
               cwd "#{base_dir}"
             end
 
-      lb/oneops.1.Lb:
+      lb/prana.1.Lb:
         lb:
          listeners:
            - tcp 5432 tcp 5432
@@ -117,11 +117,11 @@ platforms:
 
 
   display:
-    pack: oneops/rails:1
+    pack: prana/rails:1
     major_version: 1
 
     variables:
-      artifact-dir: /opt/oneops/display
+      artifact-dir: /opt/prana/display
       home-dir: $OO_GLOBAL{INSTALL-DIR}
       version: $OO_GLOBAL{VERSION}
       instances: '16'
@@ -146,12 +146,12 @@ platforms:
       privacy-policy-url:
       report-problem-url:
       support-chat-url:
-      terms-of-service-url: http://www.oneops.com/legal/terms
+      terms-of-service-url: http://www.prana.com/legal/terms
 
       session-inactivity-timeout: '30'
 
-      support-auth: oneops
-      support-email: support@oneops.com
+      support-auth: prana
+      support-email: support@prana.com
 
     links:
       - displaydb
@@ -162,18 +162,18 @@ platforms:
       - daq
 
     components:
-      secgroup/oneops.1.Secgroup:
+      secgroup/prana.1.Secgroup:
         secgroup:
           inbound:
             - '22 22 tcp 0.0.0.0/0'
             - '443 443 tcp 0.0.0.0/0'
 
-      compute/oneops.1.Compute:
+      compute/prana.1.Compute:
         compute:
           size: S
           ostype: centos-7.2
 
-      library/oneops.1.Library:
+      library/prana.1.Library:
         library:
           packages:
             - gcc-c++
@@ -182,7 +182,7 @@ platforms:
             - zlib
             - graphviz
 
-      user/oneops.1.User:
+      user/prana.1.User:
         ooadmin:
           username: ooadmin
           home_directory: /home/ooadmin
@@ -190,7 +190,7 @@ platforms:
           username: display
           home_directory: /home/display
 
-      apache/oneops.1.Apache:
+      apache/prana.1.Apache:
         apache:
           extra: |-
             SetOutputFilter DEFLATE
@@ -218,18 +218,18 @@ platforms:
             - mod_env
             - mod_deflate
 
-      daemon/oneops.1.Daemon:
+      daemon/prana.1.Daemon:
         httpd:
           service_name: httpd
           pattern: httpd
           use_script_status: true
           control_script_location: /etc/init.d/httpd
 
-      artifact/oneops.1.Artifact:
+      artifact/prana.1.Artifact:
         display:
           repository: releases
           install_dir: $OO_LOCAL{artifact-dir}
-          location: $OO_GLOBAL{DISTBASE}/oneops-display-$OO_LOCAL{version}.tar.gz
+          location: $OO_GLOBAL{DISTBASE}/prana-display-$OO_LOCAL{version}.tar.gz
           version: $OO_LOCAL{version}
           restart: |-
             home_dir = "$OO_LOCAL{home-dir}"
@@ -238,7 +238,7 @@ platforms:
 
             execute "mkdir -p #{home_dir}"
             execute "rm -fr #{dist_dir}"
-            execute "ln -sf $OO_LOCAL{artifact-dir}/releases/$OO_LOCAL{version}/oneops/dist #{dist_dir}"
+            execute "ln -sf $OO_LOCAL{artifact-dir}/releases/$OO_LOCAL{version}/prana/dist #{dist_dir}"
 
             execute 'service httpd stop'
 
@@ -308,7 +308,7 @@ platforms:
               priority: '1'
               run_on: on-demand
 
-      website/oneops.1.Website:
+      website/prana.1.Website:
         website:
           server_name: $OO_LOCAL{hostname}
           directives: |-
@@ -380,9 +380,9 @@ platforms:
               ExpiresDefault "access plus 1 hour"
             </LocationMatch>
 
-      file/oneops.1.File:
+      file/prana.1.File:
         logrotate:
-          path: /etc/logrotate.d/oneops-display
+          path: /etc/logrotate.d/prana-display
           content: |-
             $OO_LOCAL{home-dir}/display/log/*.log
             {

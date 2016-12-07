@@ -4,8 +4,8 @@ export KLOOPZ_AMQ_PASS=amqpass
 
 echo "Deploying amq plugin: $now "
 
-cp $OO_HOME/dist/oneops/dist/amq-config.tar.gz  /opt/activemq/amq-config.tar.gz
-cp $OO_HOME/dist/oneops/dist/amqplugin-fat.jar  /opt/activemq/lib/amqplugin-fat.jar
+cp $OO_HOME/dist/prana/dist/amq-config.tar.gz  /opt/activemq/amq-config.tar.gz
+cp $OO_HOME/dist/prana/dist/amqplugin-fat.jar  /opt/activemq/lib/amqplugin-fat.jar
 
 cd /opt/activemq
 

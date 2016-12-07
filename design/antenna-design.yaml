@@ -3,11 +3,11 @@ variables:
 
 platforms:
    wire:
-     pack: oneops/activemq:1
+     pack: prana/activemq:1
    cmsdb:
-       pack: oneops/postgresql:1
+       pack: prana/postgresql:1
    antenna:
-     pack: oneops/tomcat:1
+     pack: prana/tomcat:1
      description: Responsible for persisting and sending  notifications
      links:
      - cmsdb
@@ -36,10 +36,10 @@ platforms:
        install-dir: $OO_GLOBAL{INSTALL-DIR}
        amqhost: $OO_GLOBAL{AMQHOST}
      components:
-       compute/oneops.1.Compute:
+       compute/prana.1.Compute:
          compute:
            size: M
-       tomcat/oneops.1.Tomcat:
+       tomcat/prana.1.Tomcat:
          tomcat:
            polling_frequency_post_startup_check: '1'
            pre_shutdown_command: curl -s --connect-timeout 5 --max-time 5  -u $OO_LOCAL{ecv-user}:$OO_LOCAL{ecv-secret} -X PUT  http://localhost:8080/$OO_LOCAL{deploycontext}/rest/ecv/status/shutdown
@@ -48,7 +48,7 @@ platforms:
            system_properties:
              sun.net.spi.nameservice.provider.2: default
              sun.net.spi.nameservice.provider.1: dns,sun
-             oneops.url: https://$OO_LOCAL{domain-alias}
+             prana.url: https://$OO_LOCAL{domain-alias}
            protocol: HTTP/1.1
            post_startup_command: |
                #!/bin/sh
@@ -149,21 +149,21 @@ platforms:
                priority: '1'
                content: ''
                run_on: before-add,before-replace,before-update
-       daemon/oneops.1.Daemon:
+       daemon/prana.1.Daemon:
          daemon-tomcat:
            service_name: tomcat7
            pattern: tomcat
            use_script_status: 'true'
            control_script_location: /etc/init.d/tomcat7
-       artifact/oneops.1.Artifact:
+       artifact/prana.1.Artifact:
          app:
-           install_dir: /opt/oneops/artifact
+           install_dir: /opt/prana/artifact
            password: '::ENCRYPTED::'
            restart: |
-                 node.set["oneops"] = {
+                 node.set["prana"] = {
 
-                               :home => "/usr/local/oneops",
-                             :install_dir => "/usr/local/oneops"
+                               :home => "/usr/local/prana",
+                             :install_dir => "/usr/local/prana"
                            }
                            node.set["tomcat"] = {
                              :webapp_dir => "/opt/tomcat7/webapps"
@@ -175,10 +175,10 @@ platforms:
                            end
 
 
-                           execute "rm -f /usr/local/oneops/dist"
+                           execute "rm -f /usr/local/prana/dist"
 
-                           link "/usr/local/oneops/dist" do
-                             to "/opt/oneops/artifact/releases/$OO_LOCAL{version}/oneops/dist"
+                           link "/usr/local/prana/dist" do
+                             to "/opt/prana/artifact/releases/$OO_LOCAL{version}/prana/dist"
                            end
 
 
@@ -189,7 +189,7 @@ platforms:
                                 command "rm -fr #{node[:tomcat][:webapp_dir]}/#{war}*"
                              end
                              execute "#{war} war deploy" do
-                                command "cp #{node[:oneops][:home]}/dist/#{war}*.war #{node[:tomcat][:webapp_dir]}"
+                                command "cp #{node[:prana][:home]}/dist/#{war}*.war #{node[:tomcat][:webapp_dir]}"
                              end
 
                            end
@@ -201,10 +201,10 @@ platforms:
 
            should_expand: 'true'
            checksum: ''
-           location: $OO_LOCAL{distbase}/oneops-antenna-$OO_LOCAL{version}.tar.gz
+           location: $OO_LOCAL{distbase}/prana-antenna-$OO_LOCAL{version}.tar.gz
            repository: '*Using full RepoURL*'
            version: $OO_LOCAL{version}
-           url: $OO_LOCAL{distbase}/oneops-antenna-$OO_LOCAL{version}.tar.gz
+           url: $OO_LOCAL{distbase}/prana-antenna-$OO_LOCAL{version}.tar.gz
            username: not_required
            attachments:
              disableECV:
@@ -231,19 +231,19 @@ platforms:
                priority: '1'
                content: ''
                run_on: on-demand
-       lb/oneops.1.Lb:
+       lb/prana.1.Lb:
          lb:
           listeners:
            - http 8080 http 8080
           ecv_map:
             '8080': GET /$OO_LOCAL{deploycontext}/rest/ecv/status
-       keystore/oneops.1.Keystore:
+       keystore/prana.1.Keystore:
          keystore:
            keystore_password: '::ENCRYPTED::'
            keystore_filename: /var/lib/certs/keystore.jks
-       certificate/oneops.1.Certificate:
+       certificate/prana.1.Certificate:
          certificate: {}
-       user/oneops.1.User:
+       user/prana.1.User:
          ooadmin:
            home_directory_mode: '755'
            home_directory: /home/ooadmin

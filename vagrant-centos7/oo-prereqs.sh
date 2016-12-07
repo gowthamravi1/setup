@@ -133,8 +133,8 @@ echo 'export PATH=${M2_HOME}/bin:${PATH}' >> /etc/profile.d/maven.sh
 echo "OO done with maven"
 
 echo "OO generate des file"
-mkdir -p /usr/local/oneops/certs
-cd /usr/local/oneops/certs
+mkdir -p /usr/local/prana/certs
+cd /usr/local/prana/certs
 if [ ! -e oo.key ]; then
 dd if=/dev/urandom count=24 bs=1 | xxd -ps > oo.key
 ##truncate newline at the end
@@ -184,7 +184,7 @@ yum -y install elasticsearch
 
 export ES_HEAP_SIZE=512m
 echo "export ES_HEAP_SIZE=512m" > /etc/profile.d/es.sh
-sed -i -- 's/\#cluster\.name\: elasticsearch/cluster\.name\: oneops/g' /etc/elasticsearch/elasticsearch.yml
+sed -i -- 's/\#cluster\.name\: elasticsearch/cluster\.name\: prana/g' /etc/elasticsearch/elasticsearch.yml
 
 systemctl enable elasticsearch
 systemctl start elasticsearch

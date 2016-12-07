@@ -1,4 +1,4 @@
-FROM oneops/centos7
+FROM prana/centos7
 
 RUN yum makecache fast
 RUN yum -y remove ruby ruby-libs
@@ -15,7 +15,7 @@ RUN gem install rails --no-rdoc --no-ri
 COPY display.ini /etc/supervisord.d/display.ini
 COPY display.sh /opt/display.sh
 
-ENV OO_HOME /home/oneops
+ENV OO_HOME /home/prana
 ENV RAILS_ENV=development
 ENV OODB_USERNAME=kloopz
 ENV OODB_PASSWORD=kloopz

@@ -1,4 +1,4 @@
-FROM oneops/centos7
+FROM prana/centos7
 
 WORKDIR /opt
 ENV apache_archive="http://archive.apache.org/dist"
@@ -16,5 +16,5 @@ RUN chmod +x /opt/activemq.sh
 
 VOLUME /kahadb
 
-ENV OO_HOME /home/oneops
+ENV OO_HOME /home/prana
 EXPOSE 61616 61617 8161

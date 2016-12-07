@@ -3,9 +3,9 @@ variables:
 
 platforms:
     cmsdb:
-     pack: oneops/postgresql:1
+     pack: prana/postgresql:1
     adapter:
-      pack: oneops/tomcat:1
+      pack: prana/tomcat:1
       links:
         - cmsdb
       variables:
@@ -29,7 +29,7 @@ platforms:
         distbase: $OO_GLOBAL{DISTBASE}
         install-dir: $OO_GLOBAL{INSTALL-DIR}
       components:
-        tomcat/oneops.1.Tomcat:
+        tomcat/prana.1.Tomcat:
           tomcat:
             polling_frequency_post_startup_check: '1'
             pre_shutdown_command: curl -s --connect-timeout 5 --max-time 5  -u $OO_LOCAL{ecv-user}:$OO_LOCAL{ecv-secret}
@@ -40,7 +40,7 @@ platforms:
             system_properties:
               sun.net.spi.nameservice.provider.2: default
               sun.net.spi.nameservice.provider.1: dns,sun
-              oneops.url: https://$OO_LOCAL{domain-alias}
+              prana.url: https://$OO_LOCAL{domain-alias}
             post_startup_command: |
                 #!/bin/sh
                 function check_ecv_status {
@@ -132,42 +132,42 @@ platforms:
                 priority: '1'
                 content: ''
                 run_on: before-add,before-replace,before-update
-        daemon/oneops.1.Daemon:
+        daemon/prana.1.Daemon:
           daemon-tomcat:
             service_name: tomcat7
             use_script_status: 'true'
             pattern: tomcat
             control_script_location: /etc/init.d/tomcat7
-        lb/oneops.1.Lb:
+        lb/prana.1.Lb:
          lb:
           listeners:
            - http 8080 http 8080
           ecv_map:
             '8080': GET /$OO_LOCAL{deploycontext}/rest/ecv/status
-        fqdn/oneops.1.Fqdn:
+        fqdn/prana.1.Fqdn:
          fqdn:
           aliases:
            - cmsapi
 
-        artifact/oneops.1.Artifact:
+        artifact/prana.1.Artifact:
           app:
-            install_dir: /opt/oneops/artifact
+            install_dir: /opt/prana/artifact
             password: '::ENCRYPTED::'
             restart: |
-                  node.set["oneops"] = {
+                  node.set["prana"] = {
 
-                                :home => "/usr/local/oneops",
-                              :install_dir => "/usr/local/oneops"
+                                :home => "/usr/local/prana",
+                              :install_dir => "/usr/local/prana"
                             }
                             node.set["tomcat"] = {
                               :webapp_dir => "/opt/tomcat7/webapps"
                             }
                             tomcat_user = "tomcat"
 
-                            execute "rm -f /usr/local/oneops/dist"
+                            execute "rm -f /usr/local/prana/dist"
 
-                            link "/usr/local/oneops/dist" do
-                              to "/opt/oneops/artifact/releases/$OO_LOCAL{version}/oneops/dist"
+                            link "/usr/local/prana/dist" do
+                              to "/opt/prana/artifact/releases/$OO_LOCAL{version}/prana/dist"
                             end
 
                             # war cleanup and deploy
@@ -177,7 +177,7 @@ platforms:
                                  command "rm -fr #{node[:tomcat][:webapp_dir]}/#{war}*"
                               end
                               execute "#{war} war deploy" do
-                                 command "cp #{node[:oneops][:home]}/dist/#{war}*.war #{node[:tomcat][:webapp_dir]}"
+                                 command "cp #{node[:prana][:home]}/dist/#{war}*.war #{node[:tomcat][:webapp_dir]}"
                               end
                            end
 
@@ -188,10 +188,10 @@ platforms:
 
             should_expand: 'true'
             checksum: ''
-            location: $OO_LOCAL{distbase}/oneops-adapter-$OO_LOCAL{version}.tar.gz
+            location: $OO_LOCAL{distbase}/prana-adapter-$OO_LOCAL{version}.tar.gz
             repository: '*Using full RepoURL*'
             version: $OO_LOCAL{version}
-            url: $OO_LOCAL{distbase}/oneops-adapter-$OO_LOCAL{version}.tar.gz
+            url: $OO_LOCAL{distbase}/prana-adapter-$OO_LOCAL{version}.tar.gz
             username: not_required
             attachments:
               disableECV:
@@ -263,7 +263,7 @@ platforms:
                 content: ''
                 run_on: on-demand
 
-        user/oneops.1.User:
+        user/prana.1.User:
           ooadmin:
             home_directory_mode: '755'
             home_directory: /home/ooadmin

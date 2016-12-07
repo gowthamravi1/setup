@@ -1,9 +1,9 @@
 #!/bin/sh
 
-export BUILD_BASE='/home/oneops/build'
-export OO_HOME='/home/oneops'
+export BUILD_BASE='/home/prana/build'
+export OO_HOME='/home/prana'
 export SEARCH_SITE=localhost
-export GITHUB_URL='https://github.com/oneops'
+export GITHUB_URL='https://github.com/prana'
 echo "$BUILD_BASE"
 
 git config --global user.email "you@example.com"
@@ -80,7 +80,7 @@ else
 fi
 
 cd "$OO_HOME/dist"
-tar -xzvf oneops-continuous.tar.gz
+tar -xzvf prana-continuous.tar.gz
 tar -xzvf cms-db-pkg-continuous.tar.gz
 cd cms-db-pkg
 tar -xzvf db.tar.gz

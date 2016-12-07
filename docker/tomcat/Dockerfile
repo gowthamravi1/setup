@@ -1,4 +1,4 @@
-FROM oneops/centos7
+FROM prana/centos7
 
 WORKDIR /opt
 
@@ -13,5 +13,5 @@ COPY tomcat.ini /etc/supervisord.d/tomcat.ini
 COPY tomcat.sh /opt/tomcat.sh
 RUN chmod +x /opt/tomcat.sh
 
-ENV OO_HOME /home/oneops
+ENV OO_HOME /home/prana
 EXPOSE 8080

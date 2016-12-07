@@ -5,25 +5,25 @@ platforms:
 
 # searchmqdb
   searchmqdb:
-    pack: oneops/postgresql:1
+    pack: prana/postgresql:1
     major_version: 1
     variables:
       dbuser: $OO_GLOBAL{SEARCHMQDBUSER}
       dbpass: $OO_GLOBAL{SEARCHMQDBPASSWORD}
       searchmqdb: $OO_GLOBAL{SEARCHMQDB}
     components:
-      secgroup/oneops.1.Secgroup:
+      secgroup/prana.1.Secgroup:
         secgroup:
           inbound:
             - '22 22 tcp 0.0.0.0/0'
             - '5432 5432 tcp 0.0.0.0/0'
-      compute/oneops.1.Compute:
+      compute/prana.1.Compute:
         compute:
           size: M
           ostype: centos-7.2
           repo_list:
            - 'yum -y localinstall https://download.postgresql.org/pub/repos/yum/9.2/redhat/rhel-7-x86_64/pgdg-centos94-9.2-2.noarch.rpm'
-      postgresql/oneops.1.Postgresql:
+      postgresql/prana.1.Postgresql:
         postgresql:
           version: 9.2
           postgresql_conf:
@@ -31,13 +31,13 @@ platforms:
             tcp_keepalives_idle: 60
             tcp_keepalives_interval: 5
             max_connections: 1000
-      database/oneops.1.Database:
+      database/prana.1.Database:
         database:
           password: 'changeme'
           dbname: $OO_LOCAL{searchmqdb}
           username: $OO_LOCAL{dbuser}
 
-      lb/oneops.1.Lb:
+      lb/prana.1.Lb:
         lb:
          listeners:
           - tcp 5432 tcp 5432
@@ -46,7 +46,7 @@ platforms:
 
   # amq
   searchmq:
-    pack: oneops/activemq:1
+    pack: prana/activemq:1
     major_version: 1
     links:
       - searchmqdb
@@ -62,35 +62,35 @@ platforms:
       searchmqdb: $OO_GLOBAL{SEARCHMQDB}
 
     components:
-      secgroup/oneops.1.Secgroup:
+      secgroup/prana.1.Secgroup:
         secgroup:
           inbound:
           - 22 22 tcp 0.0.0.0/0
           - 61616 61617 tcp 0.0.0.0/0
           - 8161 8162 tcp 0.0.0.0/0
-      compute/oneops.1.Compute:
+      compute/prana.1.Compute:
         compute:
           size: M
           ostype: centos-7.2
-      certificate/oneops.1.Certificate:
+      certificate/prana.1.Certificate:
         broker-cert:
           cacertkey:
           passphrase:
           cert:
           key:
-      keystore/oneops.1.Keystore:
+      keystore/prana.1.Keystore:
         broker-keystore:
           keystore_password: $OO_LOCAL{broker-cert-pass}
           keystore_filename: $OO_LOCAL{broker-cert-location}
-      queue/oneops.1.Queue:
+      queue/prana.1.Queue:
         queue-search:
           queuename: search.stream
-      java/oneops.1.Java:
+      java/prana.1.Java:
         java:
           install_dir: /usr/lib/jvm
           jrejdk: server-jre
           version: '8'
-      activemq/oneops.1.Activemq:
+      activemq/prana.1.Activemq:
         activemq:
           version: 5.13.2
           brokerauthenabled: 'true'
@@ -213,7 +213,7 @@ platforms:
                         <persistenceAdapter>
                             <jdbcPersistenceAdapter dataSource="#postgres-ds" lockKeepAlivePeriod="5000">
                                 <locker>
-                                        <lease-database-locker lockAcquireSleepInterval="10000" leaseHolderId="${ONEOPS_COMPUTE_CI_ID}"/>
+                                        <lease-database-locker lockAcquireSleepInterval="10000" leaseHolderId="${prana_COMPUTE_CI_ID}"/>
                                 </locker>
                                 <statements>
                                     <statements>

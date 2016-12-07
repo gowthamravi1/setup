@@ -1,11 +1,11 @@
 #!/bin/sh
 
-mkdir -p /home/oneops
-cd /home/oneops
+mkdir -p /home/prana
+cd /home/prana
 
-export BUILD_BASE='/home/oneops/build'
-export OO_HOME='/home/oneops'
-export GITHUB_URL='https://github.com/oneops'
+export BUILD_BASE='/home/prana/build'
+export OO_HOME='/home/prana'
+export GITHUB_URL='https://github.com/prana'
 
 mkdir -p $BUILD_BASE
 
@@ -24,18 +24,18 @@ cd $OO_HOME
 
 cp $BUILD_BASE/dev-tools/setup-scripts/* .
 
-./oneops_build.sh "$@"
+./prana_build.sh "$@"
 
 if [ $? -ne 0 ]; then
   exit 1;
 fi
 
 if [ -z $OO_VALIDATION ]; then
-	echo "OO_VALIDATION environment variable has not neen set in the host machine.. Skipping OneOps Validation"
+	echo "OO_VALIDATION environment variable has not neen set in the host machine.. Skipping prana Validation"
 elif [ $OO_VALIDATION == "false" ]; then
-	echo "OO_VALIDATION environment variable is set as false in the host machine.. Skipping OneOps Validation"
+	echo "OO_VALIDATION environment variable is set as false in the host machine.. Skipping prana Validation"
 elif [ $OO_VALIDATION == "true" ]; then
-	echo "OO_VALIDATION environment variable is set as true in the host machine.. Doing OneOps Validation"
+	echo "OO_VALIDATION environment variable is set as true in the host machine.. Doing prana Validation"
 	./oo_test.rb
 fi
 

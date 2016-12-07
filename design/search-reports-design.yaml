@@ -3,32 +3,32 @@ variables:
 
 platforms:
  searchdb:
-    pack: oneops/es:1
+    pack: prana/es:1
  reports:
-    pack: oneops/apache:1
+    pack: prana/apache:1
     links:
     - searchdb
     variables:
         install-dir: $OO_GLOBAL{INSTALL-DIR}
     components:
-      website/oneops.1.Website:
+      website/prana.1.Website:
         website-reports:
-          server_name: reports.$OO_GLOBAL{env_name}.oneops.com
+          server_name: reports.$OO_GLOBAL{env_name}.prana.com
           port: '80'
           directives: |
            Options Indexes FollowSymLinks MultiViews
                   AllowOverride None
                   Order allow,deny
                   allow from all
-          root: /opt/oneops/kibana
+          root: /opt/prana/kibana
           extra: |
-           <Directory /opt/oneops/kibana>
+           <Directory /opt/prana/kibana>
                   Allow from all
                   Options -MultiViews
             </Directory>
-      artifact/oneops.1.Artifact:
+      artifact/prana.1.Artifact:
         kibana:
-          install_dir: /opt/oneops
+          install_dir: /opt/prana
           password: '::ENCRYPTED::'
           as_user: root
           restart: ''
@@ -45,7 +45,7 @@ platforms:
           repository: thirdparty
           url: $OO_CLOUD{nexus}/nexus/
           username: gecnexus
-      user/oneops.1.User:
+      user/prana.1.User:
         ooadmin:
           home_directory_mode: '755'
           home_directory: /home/ooadmin

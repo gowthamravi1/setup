@@ -3,17 +3,17 @@ variables:
 
 platforms:
     eslogs:
-        pack: oneops/es:1
+        pack: prana/es:1
         components:
-          volume/oneops.1.Volume:
+          volume/prana.1.Volume:
             volume:
               size: 100%FREE
               mount_point: /data
               fstype: ext4
-          elasticsearch/oneops.1.Es:
+          elasticsearch/prana.1.Es:
             elasticsearch:
               awareness_attribute: cloud
-              cluster_name: oneopslogs
+              cluster_name: pranalogs
               install_dir: /usr/local
               log_dir: /usr/local/var/log/elasticsearch
               conf_dir: /usr/local/etc/elasticsearch
@@ -21,30 +21,30 @@ platforms:
               version: 1.5.1
               http_port: '9200'
               data_dir: /data/elasticsearch
-          java/oneops.1.Java:
+          java/prana.1.Java:
             java:
               version: '8'
-          logstash/oneops.1.Logstash:
+          logstash/prana.1.Logstash:
             logstash:
               outputs:
-              - elasticsearch { host => "localhost" port => "9300" cluster => "oneopslogs”
+              - elasticsearch { host => "localhost" port => "9300" cluster => "pranalogs”
                 protocol => "transport" }
               inputs:
               - lumberjack { port => 5000 ssl_certificate => "/opt/.certs/logstash.crt"
                 ssl_key => "/opt/.certs/logstash.key" type => "lumberjack" }
               version: 1.5.3
-          file/oneops.1.File:
+          file/prana.1.File:
             logstash-cert:
               path: /opt/.certs/logstash.crt
             logstash-key:
               path: /opt/.certs/logstash.key
-          user/oneops.1.User:
+          user/prana.1.User:
             ooadmin:
               home_directory: /home/ooadmin
               login_shell: /bin/bash
               ulimit: '16384'
               username: ooadmin
-          haproxy/oneops.1.Haproxy:
+          haproxy/prana.1.Haproxy:
             haproxy:
               lbmethod: leastconn
               retries: '3'
@@ -60,7 +60,7 @@ platforms:
               maxconn_server: '1500'
               timeout_client: 5000s
               enable_stats_socket: 'true'
-          job/oneops.1.Job:
+          job/prana.1.Job:
             log-cleanup:
               hour: '1'
               month: '*'

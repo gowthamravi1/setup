@@ -141,8 +141,8 @@ chmod 600 /root/.ssh/git_rsa
 echo "OO done with git"
 
 echo "OO generate des file"
-mkdir -p /usr/local/oneops/certs
-cd /usr/local/oneops/certs
+mkdir -p /usr/local/prana/certs
+cd /usr/local/prana/certs
 if [ ! -e oo.key ]; then
 dd if=/dev/urandom count=24 bs=1 | xxd -ps > oo.key
 ##truncate newline at the end

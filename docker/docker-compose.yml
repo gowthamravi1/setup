@@ -6,8 +6,8 @@ services:
     container_name: inductor
     build: inductor
     volumes:
-      - home:/home/oneops
-      - opt:/opt/oneops
+      - home:/home/prana
+      - opt:/opt/prana
     links:
       - rails
       - tomcat:api
@@ -20,8 +20,8 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - home:/home/oneops
-      - opt:/opt/oneops
+      - home:/home/prana
+      - opt:/opt/prana
     links:
       - postgres:kloopzappdb
       - tomcat:api
@@ -35,7 +35,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - home:/home/oneops
+      - home:/home/prana
     links:
       - postgres:kloopzcmsdb
       - postgres:activitidb
@@ -53,7 +53,7 @@ services:
     ports:
       - "5000"
     volumes:
-      - home:/home/oneops
+      - home:/home/prana
     links:
       - elasticsearch
 
@@ -63,7 +63,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - home:/home/oneops
+      - home:/home/prana
       - postgres:/var/lib/pgsql/9.2/data
 
   activemq:
@@ -72,7 +72,7 @@ services:
     ports:
       - "61617:61617"
     volumes:
-      - home:/home/oneops
+      - home:/home/prana
       - activemq:/kahadb
 
   cassandra:
@@ -82,7 +82,7 @@ services:
       - "7000:7000"
       - "9160:9160"
     volumes:
-      - home:/home/oneops
+      - home:/home/prana
       - cassandra:/opt/cassandra/data
     cap_add:
       - IPC_LOCK
@@ -98,7 +98,7 @@ services:
       - "9200:9200"
       - "9300:9300"
     volumes:
-      - home:/home/oneops
+      - home:/home/prana
       - elasticsearch:/var/lib/elasticsearch
 
   jenkins:
@@ -107,7 +107,7 @@ services:
     ports:
      - "3001:3001"
     volumes:
-     - home:/home/oneops
+     - home:/home/prana
 
 volumes:
 

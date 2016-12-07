@@ -15,7 +15,7 @@ yum -y install elasticsearch
 
 export ES_HEAP_SIZE=512m
 echo "export ES_HEAP_SIZE=512m" > /etc/profile.d/es.sh
-sed -i -- 's/\#cluster\.name\: elasticsearch/cluster\.name\: oneops/g' /etc/elasticsearch/elasticsearch.yml
+sed -i -- 's/\#cluster\.name\: elasticsearch/cluster\.name\: prana/g' /etc/elasticsearch/elasticsearch.yml
 chkconfig --add elasticsearch
 chkconfig elasticsearch on
 

@@ -1,8 +1,8 @@
-FROM oneops/centos7
+FROM prana/centos7
 
-ENV OO_HOME /home/oneops
-ENV INDUCTOR_HOME /opt/oneops
-ENV GITHUB_URL https://github.com/oneops
+ENV OO_HOME /home/prana
+ENV INDUCTOR_HOME /opt/prana
+ENV GITHUB_URL https://github.com/prana
 VOLUME ${OO_HOME}
 VOLUME ${INDUCTOR_HOME}/inductor
 

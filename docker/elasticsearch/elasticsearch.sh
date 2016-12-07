@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export OO_HOME=/home/oneops
+export OO_HOME=/home/prana
 
 ES_USER="elasticsearch"
 ES_GROUP="elasticsearch"

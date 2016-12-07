@@ -1,13 +1,13 @@
 # Prerequisites
 
 - install latest Docker Toolbox https://www.docker.com/products/docker-toolbox
-- create dedicated docker machine for oneops
+- create dedicated docker machine for prana
 ~~~ bash
-docker-machine create -d virtualbox --virtualbox-memory "8196" oneops-docker-machine
+docker-machine create -d virtualbox --virtualbox-memory "8196" prana-docker-machine
 ~~~
 - setup your shell and verify your docker machine
 ~~~ bash
-eval $(docker-machine env oneops-docker-machine)
+eval $(docker-machine env prana-docker-machine)
 docker info
 ~~~
 
@@ -16,18 +16,18 @@ To create a docker machine with a different driver see https://docs.docker.com/m
 
 # Installation
 
-- clone the oneops setup repo
+- clone the prana setup repo
 ~~~ bash
-git clone https://github.com/oneops/setup
+git clone https://github.com/prana/setup
 cd setup/docker
-export COMPOSE_PROJECT_NAME=oneops
+export COMPOSE_PROJECT_NAME=prana
 ~~~
 
-- build oneops container images ~ 10 min (re-run this command anytime there are changes in the setup repo)
+- build prana container images ~ 10 min (re-run this command anytime there are changes in the setup repo)
 ~~~ bash
 docker-compose build
 ~~~
-- build oneops code ~ 15 min (re-run this command anytime you want to update your instance with latest oneops code)
+- build prana code ~ 15 min (re-run this command anytime you want to update your instance with latest prana code)
 ~~~ bash
 docker-compose run --rm jenkins build
 ~~~
@@ -35,7 +35,7 @@ docker-compose run --rm jenkins build
 ~~~ bash
 docker-compose run --rm jenkins build [ref]
 ~~~
-- start oneops container images (oneops code is re-deployed on startup)
+- start prana container images (prana code is re-deployed on startup)
 ~~~ bash
 docker-compose up -d
 ~~~
@@ -55,12 +55,12 @@ rails           /usr/bin/supervisord -n -c ...   Up      0.0.0.0:3000->3000/tcp
 tomcat          /usr/bin/supervisord -n -c ...   Up      0.0.0.0:8080->8080/tcp
 ~~~
 
-To access your new oneops instance go to `http://<ip>:3000` where _ip_ is the ip address of your docker machine which you can retrieve with  `docker-machine ip oneops-docker-machine`
+To access your new prana instance go to `http://<ip>:3000` where _ip_ is the ip address of your docker machine which you can retrieve with  `docker-machine ip prana-docker-machine`
 
-To create local _oneops/centos7_ base image instead of using the public one from the docker hub run `docker built --rm -t oneops/centos7 .`
+To create local _prana/centos7_ base image instead of using the public one from the docker hub run `docker built --rm -t prana/centos7 .`
 
 # Troubleshooting
 
 - To see logs from all containers run `docker-compose logs`
 - To view deployment logs via inductor logs run `docker-compose logs inductor`
-- To access any container use `docker exec -it <container> bash` where _container_ is the name of one of the oneops containers listed in `docker-compose ps`
+- To access any container use `docker exec -it <container> bash` where _container_ is the name of one of the prana containers listed in `docker-compose ps`

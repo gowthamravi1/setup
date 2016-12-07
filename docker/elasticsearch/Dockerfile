@@ -1,11 +1,11 @@
-FROM oneops/centos7
+FROM prana/centos7
 
 # elasticsearch
 RUN rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
 COPY elasticsearch.repo /etc/yum.repos.d/elasticsearch.repo
 RUN yum -y install elasticsearch
 
-RUN sed -i -- 's/\#cluster\.name\: elasticsearch/cluster\.name\: oneops/g' /etc/elasticsearch/elasticsearch.yml
+RUN sed -i -- 's/\#cluster\.name\: elasticsearch/cluster\.name\: prana/g' /etc/elasticsearch/elasticsearch.yml
 RUN echo "export ES_HEAP_SIZE=512m" > /etc/profile.d/es.sh
 COPY elasticsearch.sh /opt/elasticsearch.sh
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 # chkconfig: 2345 99 01
-# Description:    Oneops Search consumer.
+# Description:    prana Search consumer.
 # Processname: search
 
 # Source function library.
@@ -11,10 +11,10 @@
 
 prog="search-consumer"
 pidfile="/var/run/search-consumer.pid"
-#progcmd="java -Dpidfile=$pidfile -jar -Dindex.name=cms-all -Dnodes=localhost:9300 -Damq.pass=amqpass /opt/oneops-search/search.jar -Dcluster.name=oneops -DKLOOPZ_AMQ_HOST=localhost -Dsearch.maxConsumers=10"
-progcmd="/opt/oneops-search/start-consumer.sh"
+#progcmd="java -Dpidfile=$pidfile -jar -Dindex.name=cms-all -Dnodes=localhost:9300 -Damq.pass=amqpass /opt/prana-search/search.jar -Dcluster.name=prana -DKLOOPZ_AMQ_HOST=localhost -Dsearch.maxConsumers=10"
+progcmd="/opt/prana-search/start-consumer.sh"
 lock="/var/lock/subsys/search-consumer"
-logfile="/opt/oneops-search/log/search-consumer.log"
+logfile="/opt/prana-search/log/search-consumer.log"
 
 WriteLog()
 {
