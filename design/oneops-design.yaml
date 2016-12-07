@@ -1,23 +1,23 @@
 import:
-- https://raw.githubusercontent.com/prana/setup/master/design/adapter-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/admin-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/wire-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/antenna-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/cmsdb-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/activitidb-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/controller-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/daq-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/display-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/opamp-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/opsmq-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/search-logs-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/search-reports-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/searchdb-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/searchmq-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/sensor-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/transistor-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/transmitter-design.yaml
-- https://raw.githubusercontent.com/prana/setup/master/design/batch-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/adapter-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/admin-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/wire-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/antenna-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/cmsdb-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/activitidb-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/controller-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/daq-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/display-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/opamp-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/opsmq-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/search-logs-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/search-reports-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/searchdb-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/searchmq-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/sensor-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/transistor-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/transmitter-design.yaml
+- https://raw.githubusercontent.com/gowthamravi1/setup/master/design/batch-design.yaml
 
 variables:
   DISTBASE: '*change me*'
